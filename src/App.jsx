@@ -57,8 +57,8 @@ function GameRouter() {
   }
 
   if (state.gameState === GameState.TITLE) {
-    const current = gameList.find((g) => g.id === state.currentGame);
-    // return <TitleScreen title={current?.title || "タイトル"} />;
+    // const current = gameList.find((g) => g.id === state.currentGame);
+    // return <TitleScreen title={current?.title || "タイトル"}>;
     switch (state.currentGame) {
       case "TapCounter":
         return <TapCounterManager />;

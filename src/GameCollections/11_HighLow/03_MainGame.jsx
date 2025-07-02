@@ -3,16 +3,12 @@ import { gsap } from 'gsap';
 import './HighLow.css'; // CSSファイルをインポート
 
 const MainGame = ({
-  score,
-  setScore,
-  round,
-  setRound,
-  consecutiveWins,
-  setConsecutiveWins,
-  gameHistory,
-  setGameHistory,
+  gameData,
+  navigateTo,
+  setGameData,
   onGameEnd,
 }) => {
+  const { score, round, consecutiveWins, gameHistory } = gameData;
   const [deck, setDeck] = useState([]);
   const [currentCard, setCurrentCard] = useState(null);
   const [nextCard, setNextCard] = useState(null);
@@ -36,6 +32,7 @@ const MainGame = ({
     setDeck(newDeck);
     setCurrentCard(newDeck[0]);
     setNextCard(newDeck[1]);
+    setGameData(prev => ({ ...prev, round: 1, score: 0, consecutiveWins: 0, gameHistory: [] }));
   }, []);
 
   const handleGuess = (guess) => {
@@ -55,19 +52,16 @@ const MainGame = ({
         if (isCorrect) {
           const newConsecutiveWins = consecutiveWins + 1;
           const newScore = score + (newConsecutiveWins) * 10;
-          setConsecutiveWins(newConsecutiveWins);
-          setScore(newScore);
+          setGameData(prev => ({ ...prev, score: newScore, consecutiveWins: newConsecutiveWins, gameHistory: [...prev.gameHistory, 'O'] }));
           setMessage('正解！');
-          setGameHistory([...gameHistory, 'O']);
         } else {
-          setConsecutiveWins(0);
+          setGameData(prev => ({ ...prev, consecutiveWins: 0, gameHistory: [...prev.gameHistory, 'X'] }));
           setMessage('不正解...');
-          setGameHistory([...gameHistory, 'X']);
         }
 
         setTimeout(() => {
           if (round < 10) {
-            setRound(round + 1);
+            setGameData(prev => ({ ...prev, round: prev.round + 1 }));
             setCurrentCard(nextCard);
             setNextCard(deck[round + 1]);
             setIsRevealed(false);
@@ -75,7 +69,7 @@ const MainGame = ({
             // カードを裏面に戻すアニメーション
             gsap.set(nextCardRef.current, { rotationY: 0 });
           } else {
-            onGameEnd(score, [...gameHistory, isCorrect ? 'O' : 'X'], Math.max(consecutiveWins, isCorrect ? consecutiveWins + 1 : 0));
+            onGameEnd(gameData.score, [...gameData.gameHistory, isCorrect ? 'O' : 'X'], Math.max(gameData.maxConsecutiveWins, isCorrect ? gameData.consecutiveWins + 1 : 0));
           }
         }, 1000); // アニメーション後に少し待つ
       },

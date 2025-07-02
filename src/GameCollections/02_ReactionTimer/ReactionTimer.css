@@ -1,37 +1,137 @@
+/* src/GameCollections/02_ReactionTimer/ReactionTimer.css */
+
 .reaction-timer-container {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    height: 100vh;
-    font-family: sans-serif;
+  position: relative;
+  width: 100%;
+  height: 100vh;
+  font-family: sans-serif;
+  background-color: #1a1a1a;
+  color: white;
+  overflow: hidden;
+}
+
+.fixed-header {
+  position: absolute;
+  top: 50px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 10;
+}
+
+.fixed-header h2 {
+  color: #4a90e2;
+  font-size: 1.5rem;
+  margin: 0;
+  text-align: center;
+}
+
+.fixed-game-area {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -60%);
+  z-index: 5;
 }
 
 .reaction-box {
-    width: 300px;
-    height: 300px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    color: white;
-    font-size: 2rem;
-    cursor: pointer;
-    border-radius: 50%;
-    transition: background-color 0.1s ease;
+  width: 300px;
+  height: 300px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  font-size: 1.5rem;
+  cursor: pointer;
+  border-radius: 50%;
+  background-color: #808080;
+  transition: background-color 0.1s ease;
+  user-select: none;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+}
+
+.reaction-box:hover {
+  transform: scale(1.02);
+  transition: transform 0.1s ease;
 }
 
 .reaction-box p {
-    margin: 0;
+  margin: 0;
+  text-align: center;
+  font-weight: bold;
+  padding: 0 20px;
 }
 
-button {
-    margin-top: 20px;
-    padding: 10px 20px;
-    font-size: 1rem;
-    cursor: pointer;
+.fixed-results-section {
+  position: absolute;
+  bottom: 50px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 90%;
+  max-width: 400px;
+  text-align: center;
+  z-index: 10;
 }
 
-ul {
-    list-style: none;
-    padding: 0;
+.fixed-results-section h3 {
+  color: #4a90e2;
+  margin-bottom: 15px;
+  font-size: 1.2rem;
+}
+
+.results-list {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  max-height: 200px;
+  overflow-y: auto;
+}
+
+.result-item {
+  background-color: #2a2a2a;
+  padding: 10px 15px;
+  border-radius: 8px;
+  border-left: 3px solid #4a90e2;
+  font-size: 1rem;
+}
+
+/* レスポンシブ対応 */
+@media (max-width: 768px) {
+  .fixed-header {
+    top: 30px;
+  }
+
+  .fixed-header h2 {
+    font-size: 1.3rem;
+  }
+
+  .reaction-box {
+    width: 250px;
+    height: 250px;
+    font-size: 1.3rem;
+  }
+
+  .fixed-results-section {
+    bottom: 30px;
+    width: 95%;
+  }
+}
+
+@media (max-width: 480px) {
+  .fixed-header {
+    top: 20px;
+  }
+
+  .reaction-box {
+    width: 200px;
+    height: 200px;
+    font-size: 1.1rem;
+  }
+
+  .fixed-results-section {
+    bottom: 20px;
+  }
+
+  .results-list {
+    max-height: 150px;
+  }
 }

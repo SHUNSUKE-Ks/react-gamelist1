@@ -32,30 +32,45 @@ touch src/GameCollections/12_NewGame/03_MainGame.jsx
 touch src/GameCollections/12_NewGame/04_Result.jsx
 ```
 
-## 3. `TestList.jsx`へのゲームの追加
+## 3. `App.jsx`へのゲームの追加
 
-開発中のゲームを一覧表示し、動作確認を容易にするために、`src/GameCollections/TestList.jsx` に新しいゲームを追加します。
+新しいゲームをアプリケーションのゲームリストに追加し、選択可能にするために、`src/App.jsx` を編集します。
 
-1.  `TestList.jsx` を開きます。
+1.  `src/App.jsx` を開きます。
 2.  新しいゲームの `Manager` コンポーネントをインポートします。
-3.  `gameComponents` 配列に、新しいゲームの情報を追加します。
+3.  `gameList` 配列に、新しいゲームの情報を追加します。
+4.  `GameRouter` コンポーネント内の `switch` 文に、新しいゲームのケースを追加します。
 
-**編集例 (`src/GameCollections/TestList.jsx`):**
+**編集例 (`src/App.jsx`):**
 
 ```javascript
-// ... 他
-import NewGameManager from './12_NewGame/00_NewGameManager'; // 新しいゲームのManagerをインポート
+// ... 他のインポート
+import NewGameManager from "./GameCollections/12_NewGame/00_NewGameManager"; // 新しいゲームのManagerをインポート
 
-const gameComponents = [
-    // ... 既存のゲーム
-    {
-        name: 'NewGame', // ゲーム名
-        component: <NewGameManager />, // ゲームのManagerコンポーネント
-        path: '/new-game' // ゲームへのパス
-    },
+const gameList = [
+  // ... 既存のゲーム
+  {
+    id: "NewGame", // ゲームのユニークなID
+    title: "新しいゲームのタイトル", // ゲームの表示名
+    description: "新しいゲームの説明" // ゲームの説明
+  }
 ];
 
-// ... 以下略
+function GameRouter() {
+  // ... 省略
+
+  if (state.gameState === GameState.TITLE) {
+    switch (state.currentGame) {
+      // ... 既存のケース
+      case "NewGame": // 新しいゲームのID
+        return <NewGameManager />; // 新しいゲームのManagerコンポーネント
+      default:
+        return <div>ゲームが見つかりません</div>;
+    }
+  }
+
+  // ... 以下略
+}
 ```
 
 ## 4. その他必要なアセットやスタイルの追加
@@ -65,7 +80,16 @@ const gameComponents = [
 
 グローバルに適用したいスタイルがある場合は、`src/GameStyles/global.css` の編集を検討してください。
 
-## 5. GSAPの使用について
+## 5. 共通ロジックのHooks化について
+
+複数のゲームで共通して利用できるロジック（例: ゲームの状態管理、データフロー、特定のUI操作など）は、カスタムHooks (`src/hooks/` ディレクトリ) として抽出することを推奨します。これにより、コードの再利用性が高まり、各コンポーネントの責務が明確になります。
+
+**例:**
+- ゲームのフェーズ管理 (`useGameFlow`)
+- タイマー処理
+- 特定のデータ操作
+
+## 6. GSAPの使用について
 
 このプロジェクトでは、`gsap` ライブラリによるアニメーションが利用可能です。
 コンポーネントで `gsap` をインポートして、豊かなアニメーション表現を追加できます。
