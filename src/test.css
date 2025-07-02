@@ -1,0 +1,16 @@
+.bg-screen {
+  position: relative;
+  width: 100vw;
+  height: 100vh;
+  background-image: url("C:\Users\enjoy\React_GameList\react-gamelist1\public\attic1.jpg");
+  background-size: cover;
+  background-position: center;
+  overflow: hidden;
+}
+
+.item {
+  position: absolute;
+  width: 100px;
+  height: auto;
+  position-events: none;
+}

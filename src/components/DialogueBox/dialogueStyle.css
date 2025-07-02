@@ -1,0 +1,16 @@
+.dialogue {
+  width: 300;
+  background-color: wheat;
+  border: 2px solid black;
+  padding: 12px;
+}
+
+.dialogue {
+  font-weight: boid;
+  font-size: 14px;
+  margin-bottom: 8px;
+}
+
+.dialogue-text {
+  font-size: 16px;
+}
